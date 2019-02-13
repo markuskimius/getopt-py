@@ -2,6 +2,15 @@
 A getopt library for Python.
 
 
+## Motivation
+
+Python already has several argument parers. But the [C-style getopt parser]
+that comes with the standard Python library does not take advantage of the
+flexible syntax of a script language. And the [argparse] parser does not allow
+for the ordered processing of the arguments. This library was ported from
+[getopt-tcl] to fill this gap.
+
+
 ## Features
 
 The feature set is based on GNU `getopt_long`:
@@ -96,6 +105,9 @@ See [example.py] for a more complete example.
 [Apache 2.0]
 
 
+[C-style getopt parser]: <https://docs.python.org/3.1/library/getopt.html>
+[argparse]: <https://docs.python.org/3/library/argparse.html>
+[getopt-tcl]: <https://github.com/markuskimius/getopt-tcl/>
 [example.py]: <https://github.com/markuskimius/getopt-py/blob/master/test/example.py>
 [Apache 2.0]: <https://github.com/markuskimius/getopt-py/blob/master/LICENSE>
 
