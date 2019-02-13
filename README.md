@@ -1,4 +1,4 @@
-# getopt-tcl
+# getopt-py
 A getopt library for Python.
 
 
@@ -7,8 +7,8 @@ A getopt library for Python.
 Python already has several argument parers. But the [C-style getopt parser]
 that comes with the standard Python library does not take advantage of the
 flexible syntax of a script language. And the [argparse] parser does not allow
-for the ordered processing of the arguments. This library was ported from
-[getopt-tcl] to fill this gap.
+for the ordered processing of the arguments. This library was ported to Python
+from [getopt-tcl] to fill this gap.
 
 
 ## Features
