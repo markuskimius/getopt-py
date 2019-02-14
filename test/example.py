@@ -6,9 +6,9 @@ sys.path.insert(0, os.path.normpath(os.path.join(os.path.dirname(os.path.realpat
 import getopt
 
 def usage():
-    print("Usage: test [option] [file]")
+    print("Usage: example.py [option] [file]")
     print("")
-    print("Example script to show how to use getopt.tcl")
+    print("Example script to show how to use getopt.py")
     print("")
     print("Options:")
     print("  [file]                       Input file(s) [default=stdin]")
