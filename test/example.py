@@ -1,9 +1,15 @@
-#!/usr/bin/env python3
+#!/bin/sh
 
-import sys, errno, os
+# Include ../lib in the search path so we can find getopt.py
+# (Thanks to https://unix.stackexchange.com/questions/20880)
+if "true" : '''\'
+then
+    exec env PYTHONPATH="$(dirname $0)/../lib" python3 "$0" "$@"
+    exit 127
+fi
+'''
 
-sys.path.insert(0, os.path.normpath(os.path.join(os.path.dirname(os.path.realpath(__file__)), "..", "lib")))
-import getopt
+import sys, os, errno, getopt
 
 def usage():
     print("Usage: example.py [option] [file]")
@@ -33,16 +39,21 @@ def main():
     errcount = 0
 
     while(True):
-        c = getopt.getopt(sys.argv, { "o": 1, "output": 1, "n": [0,1], "number": [is_int,1], "H": is_int, "head": is_int, "h": 0, "help": 0 })
-        if(c == -1): break
+        c = getopt.getopt(sys.argv, {
+            "h": 0     , "help"   : 0,
+            "o": 1     , "output" : 1,
+            "H": is_int, "head"   : is_int,
+            "n": [0,1] , "number" : [is_int,1]
+        })
 
-        if(c == '-'): opts.files.append(getopt.optarg)
-        elif(c == 'o' or c == 'output'): opts.output = getopt.optarg
-        elif(c == 'n' or c == 'number'):
+        if(c == -1) : break
+        elif(c in ('-'))           : opts.files.append(getopt.optarg)
+        elif(c in ('h', 'help'))   : opts.help = True
+        elif(c in ('o', 'output')) : opts.output = getopt.optarg
+        elif(c in ('H', 'head'))   : opts.head = int(getopt.optarg)
+        elif(c in ('n', 'number')) :
             opts.number = True
             opts.offset = int(getopt.optarg) - 1
-        elif(c == 'H' or c == 'head'): opts.head = int(getopt.optarg)
-        elif(c == 'h' or c == 'help'): opts.help = True
         else: errcount += 1
 
     # Sanity check

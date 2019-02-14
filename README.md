@@ -60,18 +60,18 @@ The following variable names are available:
 ```python
 while True:
     c = getopt.getopt(sys.argv, {
-        "h": 0,       "help": 0,
-        "o": 1,       "output": 1,
-        "p": is_port, "port": is_port,
-        "verbose": [is_int,1]
+        "h": 0      , "help"   : 0,
+        "o": 1      , "output" : 1,
+        "p": is_port, "port"   : is_port,
+        "v": [0,1]  , "verbose": [is_int,1]
     })
 
     if(c == -1): break
-    elif(c == "-"):                  opts.files.append(getopt.optarg)
-    elif(c == "h" or c == "help"):   usage() ; sys.exit(0)
-    elif(c == "o" or c == "output"): opts.output = getopt.optarg
-    elif(c == "p" or c == "port"):   opts.port   = int(getopt.optarg)
-    elif(c == "verbose):             opts.verbose = int(getopt.optarg)
+    elif(c in ("-"))          : opts.files.append(getopt.optarg)
+    elif(c in ("h", "help")   : usage() ; sys.exit(0)
+    elif(c in ("o", "output") : opts.output  = getopt.optarg
+    elif(c in ("p", "port")   : opts.port    = int(getopt.optarg)
+    elif(c in ("verbose)      : opts.verbose = int(getopt.optarg)
     else: sys.exit(1)
 ```
 
@@ -82,7 +82,8 @@ accepted. The others must be specified with two hyphens (`--help`,
 
 - `-h` and `--help` take no arguments since the value that follows each is 0.
 - `-o` and `--output` take any argument since the value that follows each is 1.
-- `-p` and `--port` take an argument whose value must pass a test by `is_port`. For example,
+- `-p` and `--port` take an argument whose value must pass a test by `is_port`.
+  For example,
 
 ```python
 def is_port(value):
@@ -95,7 +96,10 @@ def is_port(value):
 ```
 
 Finally, `--verbose` take an optional argument whose value, if any, must pass
-the test by `is_int`. If no value is specified, the value defaults to `1`.
+the test by `is_int`. If no argument is specified, `getopt.optarg` defaults to
+`1`. `-v` does not take any argument but `getopt.optarg` defaults to `1`; the
+brackets do not denote optionality of the argument because short options cannot
+have optional arguments.
 
 See [example.py] for a more complete example.
 
