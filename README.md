@@ -20,8 +20,8 @@ The feature set is based on GNU `getopt_long`:
   equivalent to `-ovalue`).
 - Long options. Option arguments, if any, may appear with or without an equal sign
   (`--option value` is equivalent to `--option=value`).
-- Optional arguments are supported for long options. The optional argument must
-  be specified with an equal sign (`--option=value`).
+- Optional arguments are supported for long options. The optional argument,
+  when specified, must be specified with an equal sign (`--option=value`).
 - Options (with or without arguments) and optionless arguments may appear in
   any order.
 - `--` can be used to denote the end of options.
@@ -54,6 +54,7 @@ The following variable names are available:
 - `getopt.optind`: The index of the next `argv`.
 - `getopt.optopt`: The last option processed.
 - `getopt.optarg`: The argument to the last option.
+
 
 
 ## Example
@@ -104,6 +105,32 @@ have optional arguments.
 See [example.py] for a more complete example.
 
 
+## Object-Oriented Version
+
+An object-oriented version of the library is also provided, accessible via the
+plural `getopts` (note the `s` at the end).  The usage is almost identical as
+the aforementioned procedural version, `getopt`, but it is only called once to
+initialize, and it returns an iterator:
+```python
+getopt = getopts.getopts(sys.argv, {
+    "h": 0      , "help"   : 0,
+    "o": 1      , "output" : 1,
+    "p": is_port, "port"   : is_port,
+    "v": [0,1]  , "verbose": [is_int,1]
+})
+
+for c in getopt:
+    if(c in ("-"))            : opts.files.append(getopt.optarg)
+    elif(c in ("h", "help")   : usage() ; sys.exit(0)
+    elif(c in ("o", "output") : opts.output  = getopt.optarg
+    elif(c in ("p", "port")   : opts.port    = int(getopt.optarg)
+    elif(c in ("verbose)      : opts.verbose = int(getopt.optarg)
+    else: sys.exit(1)
+```
+
+See [example-oo.py] for a more complete example.
+
+
 ## License
 
 [Apache 2.0]
@@ -113,5 +140,6 @@ See [example.py] for a more complete example.
 [argparse]: <https://docs.python.org/3/library/argparse.html>
 [getopt-tcl]: <https://github.com/markuskimius/getopt-tcl/>
 [example.py]: <https://github.com/markuskimius/getopt-py/blob/master/test/example.py>
+[example-oo.py]: <https://github.com/markuskimius/getopt-py/blob/master/test/example-oo.py>
 [Apache 2.0]: <https://github.com/markuskimius/getopt-py/blob/master/LICENSE>
 
