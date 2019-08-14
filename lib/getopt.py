@@ -1,4 +1,12 @@
+"""A getopt library for Python.
+
+https://github.com/markuskimius/getopt-py
+"""
+
 import sys, re
+
+__copyright__ = "Copyright 2019, Mark Kim"
+__license__ = "Apache 2.0"
 
 # Public
 optarg = None
@@ -45,7 +53,7 @@ def getopt(argv, optstring):
     # Is this "--"? If so, get the next argument
     if(optarg == "--"):
         __done = True
-        return getopt()
+        return getopt(argv, optstring)
 
     # Is this a long option, short option, or an optionless argument?
     if(optarg[0:2] == "--"):

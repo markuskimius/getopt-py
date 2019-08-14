@@ -103,7 +103,7 @@ def cat(ofs, file):
     if(file != "-"):
         try:
             ifs = open(file, "r")
-        except iOError as e:
+        except IOError as e:
             print(e, file=sys.stderr)
             sys.exit(1)
 
