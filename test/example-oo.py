@@ -4,7 +4,7 @@
 # (Thanks to https://unix.stackexchange.com/questions/20880)
 if "true" : '''\'
 then
-    exec env PYTHONPATH="$(dirname $0)/../lib" python3 --  "$0" "$@"
+    exec env PYTHONPATH="$(dirname $0)/../lib" python3 "$0" "$@"
     exit 127
 fi
 '''
@@ -57,8 +57,8 @@ def main():
 
     # Sanity check
     if(errcount > 0):
-        print("", file=sys.stderr)
-        print("Type '%s --help' for help" % sys.argv[0], file=sys.stderr)
+        eprint("")
+        eprint("Type '%s --help' for help" % sys.argv[0])
         sys.exit(1)
 
     # Help screen
@@ -71,7 +71,7 @@ def main():
         try:
             ofs = open(opts.output, "w")
         except IOError as e:
-            print(e, file=sys.stderr)
+            eprint(e)
             sys.exit(1)
 
     # Read stdin by default
@@ -103,7 +103,7 @@ def cat(ofs, file):
         try:
             ifs = open(file, "r")
         except iOError as e:
-            print(e, file=sys.stderr)
+            eprint(e)
             sys.exit(1)
 
     # cat the file
@@ -122,7 +122,7 @@ def cat(ofs, file):
             num = count + off
             line = "%3d %s" % (num, line)
 
-        print(line, file=ofs)
+        ofs.write("%s\n" % line)
 
     # Close input file
     if(ifs != sys.stdin):
@@ -130,6 +130,9 @@ def cat(ofs, file):
 
 def chomp(line):
     return line.rstrip('\n')
+
+def eprint(text):
+    sys.stderr.write("%s\n" % text)
 
 if __name__ == "__main__":
     try:

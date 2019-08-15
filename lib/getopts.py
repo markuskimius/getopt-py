@@ -76,7 +76,7 @@ class getopts(object):
         if(self.optopt in self.optstring.keys()):
             v_fn = self.optstring[self.optopt]
         else:
-            print("%s: invalid option -- '%s'" % (self.argv[0], self.optopt), file=sys.stderr)
+            sys.stderr.write("%s: invalid option -- '%s'\n" % (self.argv[0], self.optopt))
             return getopts.ERROR
 
         # Is the argument optional and/or have a default value?
@@ -107,7 +107,7 @@ class getopts(object):
                 self.optarg = self.optarg[self.__subind:]
                 self.__subind = 1
         else:
-            print("%s: option requires an argument -- '%s'" % (self.argv[0], self.optopt), file=sys.stderr)
+            sys.stderr.write("%s: option requires an argument -- '%s'\n" % (self.argv[0], self.optopt))
             return getopts.ERROR
 
         # Do we need to validate the argument?
@@ -126,8 +126,11 @@ class getopts(object):
             pass
         else:
             # Validation fail
-            print("%s: invalid argument to option '%s' -- '%s'" % (self.argv[0], self.optopt, self.optarg), file=sys.stderr)
+            sys.stderr.write("%s: invalid argument to option '%s' -- '%s'\n" % (self.argv[0], self.optopt, self.optarg))
             return getopts.ERROR
 
         return self.optopt
+
+    def next(self):
+        return self.__next__()
 

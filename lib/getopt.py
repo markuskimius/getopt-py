@@ -85,7 +85,7 @@ def getopt(argv, optstring):
     if(optopt in __optstring.keys()):
         v_fn = __optstring[optopt]
     else:
-        print("%s: invalid option -- '%s'" % (__argv[0], optopt), file=sys.stderr)
+        sys.stderr.write("%s: invalid option -- '%s'\n" % (__argv[0], optopt))
         return __ERROR
 
     # Is the argument optional and/or have a default value?
@@ -116,7 +116,7 @@ def getopt(argv, optstring):
             optarg = optarg[__subind:]
             __subind = 1
     else:
-        print("%s: option requires an argument -- '%s'" % (__argv[0], optopt), file=sys.stderr)
+        sys.stderr.write("%s: option requires an argument -- '%s'\n" % (__argv[0], optopt))
         return __ERROR
 
     # Do we need to validate the argument?
@@ -135,7 +135,7 @@ def getopt(argv, optstring):
         pass
     else:
         # Validation fail
-        print("%s: invalid argument to option '%s' -- '%s'" % (__argv[0], optopt, optarg), file=sys.stderr)
+        sys.stderr.write("%s: invalid argument to option '%s' -- '%s'\n" % (__argv[0], optopt, optarg))
         return __ERROR
 
     return optopt
