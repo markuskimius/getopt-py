@@ -5,7 +5,7 @@ https://github.com/markuskimius/getopt-py
 
 import sys, re
 
-__copyright__ = "Copyright 2019, Mark Kim"
+__copyright__ = "Copyright 2019 Mark Kim"
 __license__ = "Apache 2.0"
 
 # Public
