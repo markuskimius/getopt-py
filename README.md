@@ -67,12 +67,12 @@ while True:
         "v": [0,1]  , "verbose": [is_int,1]
     })
 
-    if(c == -1): break
-    elif(c in ("-"))          : opts.files.append(getopt.optarg)
-    elif(c in ("h", "help")   : usage() ; sys.exit(0)
-    elif(c in ("o", "output") : opts.output  = getopt.optarg
-    elif(c in ("p", "port")   : opts.port    = int(getopt.optarg)
-    elif(c in ("verbose)      : opts.verbose = int(getopt.optarg)
+    if c == -1 : break
+    elif c in ("-")           : opts.files.append(getopt.optarg)
+    elif c in ("h", "help")   : usage() ; sys.exit(0)
+    elif c in ("o", "output") : opts.output  = getopt.optarg
+    elif c in ("p", "port")   : opts.port    = int(getopt.optarg)
+    elif c in ("v", "verbose"): opts.verbose = int(getopt.optarg)
     else: sys.exit(1)
 ```
 
@@ -120,11 +120,11 @@ getopt = getopts.getopts(sys.argv, {
 })
 
 for c in getopt:
-    if(c in ("-"))            : opts.files.append(getopt.optarg)
-    elif(c in ("h", "help")   : usage() ; sys.exit(0)
-    elif(c in ("o", "output") : opts.output  = getopt.optarg
-    elif(c in ("p", "port")   : opts.port    = int(getopt.optarg)
-    elif(c in ("verbose)      : opts.verbose = int(getopt.optarg)
+    if c in ("-")             : opts.files.append(getopt.optarg)
+    elif c in ("h", "help")   : usage() ; sys.exit(0)
+    elif c in ("o", "output") : opts.output  = getopt.optarg
+    elif c in ("p", "port")   : opts.port    = int(getopt.optarg)
+    elif c in ("v", "verbose"): opts.verbose = int(getopt.optarg)
     else: sys.exit(1)
 ```
 
