@@ -20,7 +20,7 @@ def usage():
     print("  [file]                       Input file(s) [default=stdin]")
     print("  -o <file>, --output=<file>   Output file [default=stdout]")
     print("")
-    print("  -n, --number[=start]         Show line numbers, starting at [start] if specified")
+    print("  -n[start], --number[=start]  Show line numbers, starting at [start] if specified")
     print("  -H <NUM>, --head=<NUM>       Head operation - show <NUM> lines")
     print("")
     print("  -h, --help                   Show help screen (this screen)")
@@ -40,10 +40,10 @@ def main():
 
     while(True):
         c = getopt.getopt(sys.argv, {
-            "h": 0     , "help"   : 0,
-            "o": 1     , "output" : 1,
-            "H": is_int, "head"   : is_int,
-            "n": [0,1] , "number" : [is_int,1]
+            "h": 0         , "help"   : 0,
+            "o": 1         , "output" : 1,
+            "H": is_int    , "head"   : is_int,
+            "n": [is_int,1], "number" : [is_int,1]
         })
 
         if(c == -1) : break

@@ -20,8 +20,9 @@ The feature set is based on GNU `getopt_long`:
   equivalent to `-ovalue`).
 - Long options. Option arguments, if any, may appear with or without an equal sign
   (`--option value` is equivalent to `--option=value`).
-- Optional arguments are supported for long options. The optional argument,
-  when specified, must be specified with an equal sign (`--option=value`).
+- Optional arguments are supported. The optional argument for a short option
+  must be specified without a space (`-ovalue`) and for a long option must be
+  specified with an equal sign (`--option=value`).
 - Options (with or without arguments) and optionless arguments may appear in
   any order.
 - `--` can be used to denote the end of options.
@@ -61,10 +62,10 @@ The following variable names are available:
 ```python
 while True:
     c = getopt.getopt(sys.argv, {
-        "h": 0      , "help"   : 0,
-        "o": 1      , "output" : 1,
-        "p": is_port, "port"   : is_port,
-        "v": [0,1]  , "verbose": [is_int,1]
+        "h": 0         , "help"   : 0,
+        "o": 1         , "output" : 1,
+        "p": is_port   , "port"   : is_port,
+        "v": [is_int,1], "verbose": [is_int,1]
     })
 
     if c == -1 : break
@@ -96,11 +97,9 @@ def is_port(value):
     return isport
 ```
 
-Finally, `--verbose` take an optional argument whose value, if any, must pass
-the test by `is_int`. If no argument is specified, `getopt.optarg` defaults to
-`1`. `-v` does not take any argument but `getopt.optarg` defaults to `1`; the
-brackets do not denote optionality of the argument because short options cannot
-have optional arguments.
+Finally, `-v` and `--verbose` take an optional argument whose value, if any,
+must pass the test by `is_int`. If no argument is specified, `getopt.optarg`
+defaults to `1`.
 
 See [example.py] for a more complete example.
 
@@ -113,10 +112,10 @@ the aforementioned procedural version, `getopt`, but it is only called once to
 initialize, and it returns an iterator:
 ```python
 getopt = getopts.getopts(sys.argv, {
-    "h": 0      , "help"   : 0,
-    "o": 1      , "output" : 1,
-    "p": is_port, "port"   : is_port,
-    "v": [0,1]  , "verbose": [is_int,1]
+    "h": 0         , "help"   : 0,
+    "o": 1         , "output" : 1,
+    "p": is_port   , "port"   : is_port,
+    "v": [is_int,1], "verbose": [is_int,1]
 })
 
 for c in getopt:

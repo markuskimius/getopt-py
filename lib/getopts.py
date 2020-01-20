@@ -98,6 +98,16 @@ class getopts(object):
         if(islong and (gotarg or isargopt)):
             # Nothing to do
             pass
+        elif(isargopt):
+            # Short option, optional argument without space
+            if(self.__subind > 1):
+                self.optarg = self.argv[self.optind]
+                self.optarg = self.optarg[self.__subind:]
+
+                self.optind += 1
+                self.__subind = 1
+            else:
+                self.optarg = defalt
         elif(self.optind < len(self.argv)):
             self.optarg = self.argv[self.optind]
             self.optind += 1

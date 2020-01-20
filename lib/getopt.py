@@ -107,6 +107,16 @@ def getopt(argv, optstring):
     if(islong and (gotarg or isargopt)):
         # Nothing to do
         pass
+    elif(isargopt):
+        # Short option, optional argument without space
+        if(__subind > 1):
+            optarg = __argv[optind]
+            optarg = optarg[__subind:]
+
+            optind += 1
+            __subind = 1
+        else:
+            optarg = defalt
     elif(optind < len(__argv)):
         optarg = __argv[optind]
         optind += 1
