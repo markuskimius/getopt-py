@@ -5,7 +5,7 @@ https://github.com/markuskimius/getopt-py
 
 import sys, re
 
-__copyright__ = "Copyright 2019 Mark Kim"
+__copyright__ = "Copyright 2019-2020 Mark Kim"
 __license__ = "Apache 2.0"
 
 class getopts(object):
@@ -13,12 +13,13 @@ class getopts(object):
     ERROR = "?"
 
     def __init__(self, argv, optstring):
+        self.argv0 = sys.argv[0]
         self.argv = argv
         self.optstring = optstring
 
         self.optarg = None
         self.optopt = None
-        self.optind = 1
+        self.optind = 0
 
         self.__done = False
         self.__subind = 1
@@ -58,7 +59,7 @@ class getopts(object):
                 self.optarg = self.optopt[index+1:]
                 self.optopt = self.optopt[:index]
                 gotarg = True
-        elif(self.optarg[0] == "-" and len(self.optarg) > 1):
+        elif(self.optarg[0:1] == "-" and len(self.optarg) > 1):
             self.optopt = self.optarg[self.__subind]
             self.__subind += 1
 
@@ -76,7 +77,7 @@ class getopts(object):
         if(self.optopt in self.optstring.keys()):
             v_fn = self.optstring[self.optopt]
         else:
-            sys.stderr.write("%s: invalid option -- '%s'\n" % (self.argv[0], self.optopt))
+            sys.stderr.write("%s: invalid option -- '%s'\n" % (self.argv0, self.optopt))
             return getopts.ERROR
 
         # Is the argument optional and/or have a default value?
@@ -84,7 +85,7 @@ class getopts(object):
         defalt = ""
         if(isinstance(v_fn,list)):
             isargopt = True
-            defalt = v_fn[1] if(len(v_fn) > 1) else ""
+            defalt = v_fn[1] if(len(v_fn) > 1) else None
             v_fn = v_fn[0]
 
         # Does this option take an argument?
@@ -108,6 +109,8 @@ class getopts(object):
                 self.__subind = 1
             else:
                 self.optarg = defalt
+                return self.optopt
+
         elif(self.optind < len(self.argv)):
             self.optarg = self.argv[self.optind]
             self.optind += 1
@@ -117,26 +120,27 @@ class getopts(object):
                 self.optarg = self.optarg[self.__subind:]
                 self.__subind = 1
         else:
-            sys.stderr.write("%s: option requires an argument -- '%s'\n" % (self.argv[0], self.optopt))
+            sys.stderr.write("%s: option requires an argument -- '%s'\n" % (self.argv0, self.optopt))
+            self.optarg = ''
             return getopts.ERROR
 
         # Do we need to validate the argument?
-        if(self.optarg == "" and isargopt):
-            # No argument specified and isn't required - use the default
-            self.optarg = defalt
-        elif(isinstance(v_fn, int)):
+        if(isinstance(v_fn, int)):
             # No validation needed
             pass
+        elif(self.optarg == "" and isargopt):
+            # No argument specified and isn't required - use the default
+            self.optarg = defalt
         elif(not callable(v_fn)):
             # We should never get here. Show error message then crash so the
             # developer can see the stacktrace and debug their code.
-            raise Exception("%s: invalid validation function -- '%s'" % (self.argv[0], v_fn))
+            raise Exception("%s: invalid validation function -- '%s'" % (self.argv0, v_fn))
         elif(v_fn(self.optarg)):
             # Validation passed - nothing to do
             pass
         else:
             # Validation fail
-            sys.stderr.write("%s: invalid argument to option '%s' -- '%s'\n" % (self.argv[0], self.optopt, self.optarg))
+            sys.stderr.write("%s: invalid argument to option '%s' -- '%s'\n" % (self.argv0, self.optopt, self.optarg))
             return getopts.ERROR
 
         return self.optopt

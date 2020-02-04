@@ -34,7 +34,7 @@ c = getopt.getopt(argv, optstring)
 ```
 
 All parameters are mandatory:
-- `argv` - The argument list (e.g., sys.argv)
+- `argv` - The argument list (e.g., sys.argv[1:])
 - `optstring` - A dictionary containing the valid options and a specification
   of whether they take an argument. The keys are the options. The value may be
   `0` if the option takes no argument, or `1` if it takes an argument. Instead
@@ -61,7 +61,7 @@ The following variable names are available:
 ## Example
 ```python
 while True:
-    c = getopt.getopt(sys.argv, {
+    c = getopt.getopt(sys.argv[1:], {
         "h": 0         , "help"   : 0,
         "o": 1         , "output" : 1,
         "p": is_port   , "port"   : is_port,
@@ -111,7 +111,7 @@ plural `getopts` (note the `s` at the end).  The usage is almost identical as
 the aforementioned procedural version, `getopt`, but it is only called once to
 initialize, and it returns an iterator:
 ```python
-getopt = getopts.getopts(sys.argv, {
+getopt = getopts.getopts(sys.argv[1:], {
     "h": 0         , "help"   : 0,
     "o": 1         , "output" : 1,
     "p": is_port   , "port"   : is_port,

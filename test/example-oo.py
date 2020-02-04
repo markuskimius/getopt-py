@@ -38,7 +38,7 @@ def main():
     ofs = sys.stdout
     errcount = 0
 
-    getopt = getopts.getopts(sys.argv, {
+    getopt = getopts.getopts(sys.argv[1:], {
         "h": 0         , "help"   : 0,
         "o": 1         , "output" : 1,
         "H": is_int    , "head"   : is_int,

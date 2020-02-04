@@ -39,7 +39,7 @@ def main():
     errcount = 0
 
     while(True):
-        c = getopt.getopt(sys.argv, {
+        c = getopt.getopt(sys.argv[1:], {
             "h": 0         , "help"   : 0,
             "o": 1         , "output" : 1,
             "H": is_int    , "head"   : is_int,
