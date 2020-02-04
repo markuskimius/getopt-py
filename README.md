@@ -111,7 +111,7 @@ plural `getopts` (note the `s` at the end).  The usage is almost identical as
 the aforementioned procedural version, `getopt`, but it is only called once to
 initialize, and it returns an iterator:
 ```python
-getopt = getopts.getopts(sys.argv[1:], {
+getopt = getopts.getopts(sys.argv, {
     "h": 0         , "help"   : 0,
     "o": 1         , "output" : 1,
     "p": is_port   , "port"   : is_port,

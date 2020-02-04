@@ -13,13 +13,12 @@ class getopts(object):
     ERROR = "?"
 
     def __init__(self, argv, optstring):
-        self.argv0 = sys.argv[0]
         self.argv = argv
         self.optstring = optstring
 
         self.optarg = None
         self.optopt = None
-        self.optind = 0
+        self.optind = 1
 
         self.__done = False
         self.__subind = 1
@@ -77,7 +76,7 @@ class getopts(object):
         if(self.optopt in self.optstring.keys()):
             v_fn = self.optstring[self.optopt]
         else:
-            sys.stderr.write("%s: invalid option -- '%s'\n" % (self.argv0, self.optopt))
+            sys.stderr.write("%s: invalid option -- '%s'\n" % (self.argv[0], self.optopt))
             return getopts.ERROR
 
         # Is the argument optional and/or have a default value?
@@ -120,7 +119,7 @@ class getopts(object):
                 self.optarg = self.optarg[self.__subind:]
                 self.__subind = 1
         else:
-            sys.stderr.write("%s: option requires an argument -- '%s'\n" % (self.argv0, self.optopt))
+            sys.stderr.write("%s: option requires an argument -- '%s'\n" % (self.argv[0], self.optopt))
             self.optarg = ''
             return getopts.ERROR
 
@@ -134,13 +133,13 @@ class getopts(object):
         elif(not callable(v_fn)):
             # We should never get here. Show error message then crash so the
             # developer can see the stacktrace and debug their code.
-            raise Exception("%s: invalid validation function -- '%s'" % (self.argv0, v_fn))
+            raise Exception("%s: invalid validation function -- '%s'" % (self.argv[0], v_fn))
         elif(v_fn(self.optarg)):
             # Validation passed - nothing to do
             pass
         else:
             # Validation fail
-            sys.stderr.write("%s: invalid argument to option '%s' -- '%s'\n" % (self.argv0, self.optopt, self.optarg))
+            sys.stderr.write("%s: invalid argument to option '%s' -- '%s'\n" % (self.argv[0], self.optopt, self.optarg))
             return getopts.ERROR
 
         return self.optopt

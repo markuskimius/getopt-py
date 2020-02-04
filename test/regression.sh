@@ -99,7 +99,7 @@ import sys, os, errno, getopt
 
 
 def test(args):
-    print("  target %s:" % ' '.join(map(lambda x: x if len(x) else '{}', args)))
+    print("  target %s:" % ' '.join(map(lambda x: x if len(x) else '{}', args[1:])))
     sys.stdout.flush()
     output = target(args)
 
@@ -135,7 +135,7 @@ def target(args):
         if(c == -1): break
 
         optopt = '0' if c == '-' else getopt.optopt
-        optind = str(getopt.optind)
+        optind = str(getopt.optind-1)
         optarg = getopt.optarg if len(getopt.optarg) else '{}'
 
         opts['-|opts'].append(optopt)
@@ -162,7 +162,7 @@ def is_int(s_int):
 
 if __name__ == "__main__":
     try:
-        test(sys.argv[1:])
+        test(sys.argv)
     except KeyboardInterrupt:
         print("")
         sys.exit(errno.EOWNERDEAD)

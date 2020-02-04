@@ -14,7 +14,6 @@ optopt = None
 optind = None
 
 # Private
-__argv0 = sys.argv[0]
 __argv = None
 __optstring = None
 __subind = None
@@ -34,7 +33,7 @@ def getopt(argv, optstring):
 
     # Initialize
     if(argv != __argv or optstring != __optstring):
-        optind = 0
+        optind = 1
         __done = False
         __argv = argv
         __optstring = optstring
@@ -86,7 +85,7 @@ def getopt(argv, optstring):
     if(optopt in __optstring.keys()):
         v_fn = __optstring[optopt]
     else:
-        sys.stderr.write("%s: invalid option -- '%s'\n" % (__argv0, optopt))
+        sys.stderr.write("%s: invalid option -- '%s'\n" % (__argv[0], optopt))
         return __ERROR
 
     # Is the argument optional and/or have a default value?
@@ -129,7 +128,7 @@ def getopt(argv, optstring):
             optarg = optarg[__subind:]
             __subind = 1
     else:
-        sys.stderr.write("%s: option requires an argument -- '%s'\n" % (__argv0, optopt))
+        sys.stderr.write("%s: option requires an argument -- '%s'\n" % (__argv[0], optopt))
         optarg = ''
         return __ERROR
 
@@ -143,13 +142,13 @@ def getopt(argv, optstring):
     elif(not callable(v_fn)):
         # We should never get here. Show error message then crash so the
         # developer can see the stacktrace and debug their code.
-        raise Exception("%s: invalid validation function -- '%s'" % (__argv0, v_fn))
+        raise Exception("%s: invalid validation function -- '%s'" % (__argv[0], v_fn))
     elif(v_fn(optarg)):
         # Validation passed - nothing to do
         pass
     else:
         # Validation fail
-        sys.stderr.write("%s: invalid argument to option '%s' -- '%s'\n" % (__argv0, optopt, optarg))
+        sys.stderr.write("%s: invalid argument to option '%s' -- '%s'\n" % (__argv[0], optopt, optarg))
         return __ERROR
 
     return optopt
