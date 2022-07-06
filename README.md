@@ -1,5 +1,5 @@
 # getopt-py
-A getopt library for Python.
+Yet another getopt library for Python.
 
 
 ## Motivation
@@ -34,7 +34,7 @@ getopts.getopts(argv, optstring)
 ```
 
 All parameters are mandatory:
-- `argv` - The argument list (e.g., sys.argv[1:])
+- `argv` - The argument list (e.g., sys.argv)
 - `optstring` - A dictionary containing the valid options and a specification
   of whether they take an argument. The keys are the options. The value may be
   `0` if the option takes no argument, or `1` if it takes an argument. Instead
