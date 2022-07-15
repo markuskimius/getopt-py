@@ -1,41 +1,93 @@
 # getopt-py
-Yet another getopt library for Python.
+
+A classic getopt library for Python with long options and optional arguments
+support.
 
 
 ## Motivation
 
-Python already has several argument parers. But the [C-style getopt parser]
-that comes with the standard Python library does not take advantage of the
-flexible syntax of a script language. And the [argparse] parser does not allow
-for the ordered processing of the arguments. This library was ported to Python
-from [getopt-tcl] to fill this gap.
+For developers that find [argparse] too constraining.
+
+
+## Example
+
+```python
+import getopts
+
+...
+
+getopt = getopts.getopts(sys.argv, {
+    "h": 0         , "help"   : 0,
+    "o": 1         , "output" : 1,
+    "p": is_port   , "port"   : is_port,
+    "v": [is_int,1], "verbose": [is_int,1]
+})
+
+for c in getopt:
+    if   c in ("-")           : opts.files.append(getopt.optarg)
+    elif c in ("h", "help")   : usage() ; sys.exit(0)
+    elif c in ("o", "output") : opts.output  = getopt.optarg
+    elif c in ("p", "port")   : opts.port    = int(getopt.optarg)
+    elif c in ("v", "verbose"): opts.verbose = int(getopt.optarg)
+    else: sys.exit(1)
+```
+
+- `-h` and `--help` take no arguments (0).
+- `-o` and `--output` take any argument (1).
+- `-p` and `--port` take an argument that, when passed to the `is_port`
+  function, returns True.
+- `-v` and `--verbose` take an optional argument that, when passed to the
+  `is_int` function, returns True.  If no argument is specified, it defaults to
+  `1`.
+
+See [example.py] for a more complete example.
 
 
 ## Features
 
-The feature set is based on GNU `getopt_long`:
+The features are based on GNU `getopt_long`:
 
-- Short options. Options may be combined (`-a -b -c` is equivalent to `-abc`).
-  Option arguments, if any, may appear with or without a space (`-o value` is
-  equivalent to `-ovalue`).
-- Long options. Option arguments, if any, may appear with or without an equal sign
-  (`--option value` is equivalent to `--option=value`).
-- Optional arguments are supported. The optional argument for a short option
-  must be specified without a space (`-ovalue`) and for a long option must be
-  specified with an equal sign (`--option=value`).
-- Options (with or without arguments) and optionless arguments may appear in
-  any order.
+- Short options.  Options may be combined (`-a -b -c` is equivalent to `-abc`).
+  If the option takes a mandatory argument, the argument may appear with or
+  without whitespaces (`-o value` is equivalent to `-ovalue`).
+
+- Long options.  If the option takes a mandatory argument, the argument may
+  appear with or without an equal sign (`--option value` is equivalent to
+  `--option=value`).
+
+- Optional arguments. If the option takes an optional argument, the argument
+  must appear without a space after a short option (`-ovalue`) or with an equal
+  sign after a long option (`--option=value`).
+
+- Options may appear in any order.
+
 - `--` can be used to denote the end of options.
 
 
+## Installation
+
+With pip:
+
+```
+pip install getopts
+```
+(note the plural 's')
+
+With [dpm]:
+```
+dpm install https://github.com/markuskimius/getopt-py.git
+```
+
+
 ## Usage
+
 ```python
-getopts.getopts(argv, optstring)
+getopts.getopts(argv, optdict)
 ```
 
 All parameters are mandatory:
 - `argv` - The argument list (e.g., sys.argv)
-- `optstring` - A dictionary containing the valid options and a specification
+- `optdict` - A dictionary containing the valid options and a specification
   of whether they take an argument. The keys are the options. The value may be
   `0` if the option takes no argument, or `1` if it takes an argument. Instead
   of `0` or `1`, it may specify a validation function that returns `1` if the
@@ -45,61 +97,16 @@ All parameters are mandatory:
 
 The function returns an iterable object that, if evaluated, returns one of the
 following:
-- `-`: An optionless argument. The value of the argument is stored in `getopt.optarg`.
+- `-`: An optionless argument.  The value of the argument is stored in `getopt.optarg`.
 - `?`: An invalid option. An error message has been printed to `getopt.stderr` and the
   option that caused the error is stored in `getopt.optopt`.
-- All other values: A valid option. This value is also stored in `getopt.optopt`. If
+- All other values: A valid option.  This value is also stored in `getopt.optopt`.  If
   the option takes an argument, the value is stored in `getopt.optarg`.
 
 The following variable names are available:
 - `getopt.optind`: The index of the next `argv`.
 - `getopt.optopt`: The last option processed.
 - `getopt.optarg`: The argument to the last option.
-
-
-## Example
-```python
-getopt = getopts.getopts(sys.argv, {
-    "h": 0         , "help"   : 0,
-    "o": 1         , "output" : 1,
-    "p": is_port   , "port"   : is_port,
-    "v": [is_int,1], "verbose": [is_int,1]
-})
-
-for c in getopt:
-    if c in ("-")             : opts.files.append(getopt.optarg)
-    elif c in ("h", "help")   : usage() ; sys.exit(0)
-    elif c in ("o", "output") : opts.output  = getopt.optarg
-    elif c in ("p", "port")   : opts.port    = int(getopt.optarg)
-    elif c in ("v", "verbose"): opts.verbose = int(getopt.optarg)
-    else: sys.exit(1)
-```
-
-In the above example, single character options `h`, `o`, `p`, `v` may be
-specified with a single hyphen (`-h`, `-o`, `-p`, `-v`). Two hyphens are also
-accepted. The others must be specified with two hyphens (`--help`,
-`--output`, `--port`, `--verbose`).
-
-- `-h` and `--help` take no arguments since the value that follows each is 0.
-- `-o` and `--output` take any argument since the value that follows each is 1.
-- `-p` and `--port` take an argument whose value must pass a test by `is_port`.
-  For example,
-
-```python
-def is_port(value):
-    isport = False
-
-    if(isinstance(value, int) and int(value) >= 1024 and int(value) < 65536):
-        isport = True
-
-    return isport
-```
-
-Finally, `-v` and `--verbose` take an optional argument whose value, if any,
-must pass the test by `is_int`. If no argument is specified, `getopt.optarg`
-defaults to `1`.
-
-See [example-oo.py] for a more complete example.
 
 
 ## License
@@ -110,6 +117,7 @@ See [example-oo.py] for a more complete example.
 [C-style getopt parser]: <https://docs.python.org/3.1/library/getopt.html>
 [argparse]: <https://docs.python.org/3/library/argparse.html>
 [getopt-tcl]: <https://github.com/markuskimius/getopt-tcl/>
-[example-oo.py]: <https://github.com/markuskimius/getopt-py/blob/master/test/example-oo.py>
+[example.py]: <https://github.com/markuskimius/getopt-py/blob/master/test/example.py>
 [Apache 2.0]: <https://github.com/markuskimius/getopt-py/blob/master/LICENSE>
+[dpm]: <https://github.com/markuskimius/dpm>
 

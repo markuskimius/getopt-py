@@ -343,7 +343,7 @@
   w = warg1 warg2 warg3 {}
 
   target -n --no-arg -wwarg1 -w {} --opt-arg warg2 --opt-arg=warg3 -i1024 -i 2048 --integer 3072 --integer=4096 myarg1:
-./regression-oo.sh: invalid argument to option 'opt-arg' -- 'warg3'
+./regression.py: invalid argument to option 'opt-arg' -- 'warg3'
   -|index = 1 2 3 5 6 7 8 9 11 13 14 15
   -|opts = n no-arg w w opt-arg 0 opt-arg i i integer integer 0
   0 = warg2 myarg1
@@ -354,7 +354,7 @@
   x = warg3
 
   target -n --no-arg -wwarg1 -w warg2 --opt-arg {} --opt-arg=warg3 -i1024 -i 2048 --integer 3072 --integer=4096 myarg1:
-./regression-oo.sh: invalid argument to option 'opt-arg' -- 'warg3'
+./regression.py: invalid argument to option 'opt-arg' -- 'warg3'
   -|index = 1 2 3 5 6 7 8 9 11 13 14 15
   -|opts = n no-arg w w opt-arg 0 opt-arg i i integer integer 0
   0 = {} myarg1
@@ -392,7 +392,7 @@
   w = warg1 warg2
 
   target -n --no-arg -wwarg1 -w {} -o warg2 -owarg3 -i1024 -i 2048 --integer 3072 --integer=4096 myarg1:
-./regression-oo.sh: invalid argument to option 'o' -- 'warg3'
+./regression.py: invalid argument to option 'o' -- 'warg3'
   -|index = 1 2 3 5 6 7 8 9 11 13 14 15
   -|opts = n no-arg w w o 0 o i i integer integer 0
   0 = warg2 myarg1
@@ -403,7 +403,7 @@
   x = warg3
 
   target -n --no-arg -wwarg1 -w warg2 -o {} -owarg3 -i1024 -i 2048 --integer 3072 --integer=4096 myarg1:
-./regression-oo.sh: invalid argument to option 'o' -- 'warg3'
+./regression.py: invalid argument to option 'o' -- 'warg3'
   -|index = 1 2 3 5 6 7 8 9 11 13 14 15
   -|opts = n no-arg w w o 0 o i i integer integer 0
   0 = {} myarg1
@@ -442,7 +442,7 @@
 
 *** EXCEPTIONS (EMPTY INTEGER ARGS) ***
   target -n --no-arg -wwarg1 -w warg2 --with-arg warg3 --with-arg=warg4 -i1024 -i {} --integer 2048 --integer=3072 myarg1:
-./regression-oo.sh: invalid argument to option 'i' -- ''
+./regression.py: invalid argument to option 'i' -- ''
   -|index = 1 2 3 5 7 8 9 11 13 14 15
   -|opts = n no-arg w w with-arg with-arg i i integer integer 0
   0 = myarg1
@@ -452,7 +452,7 @@
   x = {}
 
   target -n --no-arg -wwarg1 -w warg2 --with-arg warg3 --with-arg=warg4 -i1024 -i 2048 --integer {} --integer=3072 myarg1:
-./regression-oo.sh: invalid argument to option 'integer' -- ''
+./regression.py: invalid argument to option 'integer' -- ''
   -|index = 1 2 3 5 7 8 9 11 13 14 15
   -|opts = n no-arg w w with-arg with-arg i i integer integer 0
   0 = myarg1
@@ -462,7 +462,7 @@
   x = {}
 
   target -n --no-arg -wwarg1 -w warg2 --with-arg warg3 --with-arg=warg4 -i1024 -i 2048 --integer 3072 --integer= myarg1:
-./regression-oo.sh: invalid argument to option 'integer' -- ''
+./regression.py: invalid argument to option 'integer' -- ''
   -|index = 1 2 3 5 7 8 9 11 13 14 15
   -|opts = n no-arg w w with-arg with-arg i i integer integer 0
   0 = myarg1
@@ -473,7 +473,7 @@
 
 *** EXCEPTIONS (MISSING MANDATORY ARGS) ***
   target -n --no-arg -w warg1 --with-arg warg2 --with-arg=warg3 -i1024 -i 1024 --integer 2048 --integer=3072 myarg1 -w:
-./regression-oo.sh: option requires an argument -- 'w'
+./regression.py: option requires an argument -- 'w'
   -|index = 1 2 4 6 7 8 10 12 13 14 15
   -|opts = n no-arg w with-arg with-arg i i integer integer 0 w
   0 = myarg1
@@ -483,7 +483,7 @@
   x = {}
 
   target -n --no-arg -wwarg1 --with-arg warg2 --with-arg=warg3 -i1024 -i 1024 --integer 2048 --integer=3072 myarg1 -w:
-./regression-oo.sh: option requires an argument -- 'w'
+./regression.py: option requires an argument -- 'w'
   -|index = 1 2 3 5 6 7 9 11 12 13 14
   -|opts = n no-arg w with-arg with-arg i i integer integer 0 w
   0 = myarg1
@@ -493,7 +493,7 @@
   x = {}
 
   target -n --no-arg -wwarg1 -w warg2 --with-arg=warg3 -i1024 -i 1024 --integer 2048 --integer=3072 myarg1 --with-arg:
-./regression-oo.sh: option requires an argument -- 'with-arg'
+./regression.py: option requires an argument -- 'with-arg'
   -|index = 1 2 3 5 6 7 9 11 12 13 14
   -|opts = n no-arg w w with-arg i i integer integer 0 with-arg
   0 = myarg1
@@ -503,7 +503,7 @@
   x = {}
 
   target -n --no-arg -wwarg1 -w warg2 --with-arg warg3 --with-arg=warg4 -i 1024 --integer 2048 --integer=3072 myarg1 -i:
-./regression-oo.sh: option requires an argument -- 'i'
+./regression.py: option requires an argument -- 'i'
   -|index = 1 2 3 5 7 8 10 12 13 14 15
   -|opts = n no-arg w w with-arg with-arg i integer integer 0 i
   0 = myarg1
@@ -513,7 +513,7 @@
   x = {}
 
   target -n --no-arg -wwarg1 -w warg2 --with-arg warg3 --with-arg=warg4 -i1024 --integer 2048 --integer=3072 myarg1 -i:
-./regression-oo.sh: option requires an argument -- 'i'
+./regression.py: option requires an argument -- 'i'
   -|index = 1 2 3 5 7 8 9 11 12 13 14
   -|opts = n no-arg w w with-arg with-arg i integer integer 0 i
   0 = myarg1
@@ -523,7 +523,7 @@
   x = {}
 
   target -n --no-arg -wwarg1 -w warg2 --with-arg warg3 --with-arg=warg4 -i1024 -i 2048 --integer=3072 myarg1 --integer:
-./regression-oo.sh: option requires an argument -- 'integer'
+./regression.py: option requires an argument -- 'integer'
   -|index = 1 2 3 5 7 8 9 11 12 13 14
   -|opts = n no-arg w w with-arg with-arg i i integer 0 integer
   0 = myarg1
@@ -533,7 +533,7 @@
   x = {}
 
   target -n --no-arg -wwarg1 -w warg2 --with-arg warg3 --with-arg=warg4 -i1024 -i 2048 --integer 3072 --integer= myarg1:
-./regression-oo.sh: invalid argument to option 'integer' -- ''
+./regression.py: invalid argument to option 'integer' -- ''
   -|index = 1 2 3 5 7 8 9 11 13 14 15
   -|opts = n no-arg w w with-arg with-arg i i integer integer 0
   0 = myarg1
@@ -543,7 +543,7 @@
   x = {}
 
   target -n --no-arg -wwarg1 -w warg2 --with-arg warg3 --with-arg=warg4 -i1024 -i 2048 --integer 3072 myarg1 --integer=:
-./regression-oo.sh: invalid argument to option 'integer' -- ''
+./regression.py: invalid argument to option 'integer' -- ''
   -|index = 1 2 3 5 7 8 9 11 13 14 15
   -|opts = n no-arg w w with-arg with-arg i i integer 0 integer
   0 = myarg1

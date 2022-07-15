@@ -10,7 +10,7 @@ with open(path.join(SCRIPTDIR, "README.md"), encoding="utf-8") as f:
 
 setup(
                              name = "getopts",
-                      description = "Yet another getopt library for Python",
+                      description = "A classic getopt library with long options and optional arguments support.",
                           version = "1.0.4",
                           license = "Apache 2.0",
                            author = "Mark Kim",

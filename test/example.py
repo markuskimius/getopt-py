@@ -1,30 +1,43 @@
 #!/bin/sh
 
-# Include ../lib in the search path so we can find getopt.py
+##############################################################################
+# BOOTSTRAP
+#
+# Include ../lib in the search path then call python3 or python.
 # (Thanks to https://unix.stackexchange.com/questions/20880)
+#
 if "true" : '''\'
 then
-    exec env PYTHONPATH="$(dirname $0)/../lib" python3 "$0" "$@"
+    export PYTHONPATH="$(dirname $0)/../lib:$PYTHONPATH"
+    pythoncmd=python
+
+    if command -v python3 >/dev/null; then
+        pythoncmd=python3
+    fi
+
+    exec "$pythoncmd" "$0" "$@"
     exit 127
 fi
 '''
 
-import sys, os, errno, getopts
+##############################################################################
+# PYTHON CODE BEGINS HERE
 
-def usage():
-    print("Usage: example-oo.py [option] [file]")
-    print("")
-    print("Example script to show how to use object-oriented getopts.py.")
-    print("")
-    print("Options:")
-    print("  [file]                       Input file(s) [default=stdin]")
-    print("  -o <file>, --output=<file>   Output file [default=stdout]")
-    print("")
-    print("  -n[start], --number[=start]  Show line numbers, starting at [start] if specified")
-    print("  -H <NUM>, --head=<NUM>       Head operation - show <NUM> lines")
-    print("")
-    print("  -h, --help                   Show help screen (this screen)")
-    print("")
+import os
+import sys
+import errno
+import getopts
+
+__copyright__ = 'Copyright 2019-2022 Mark Kim'
+__license__ = 'Apache 2.0'
+__version__ = "1.0.4"
+__author__ = "Mark Kim"
+
+
+##############################################################################
+# GLOBALS
+
+SCRIPTNAME = os.path.basename(__file__)
 
 class opts:
     files = []
@@ -33,6 +46,32 @@ class opts:
     offset = 0
     head = 0
     help = False
+
+
+##############################################################################
+# USAGE
+
+def usage():
+    """\
+Usage: {SCRIPTNAME} [option] [file]
+
+Example script to show how to use object-oriented getopts.py.
+
+Options:
+  [file]                       Input file(s) [default=stdin]
+  -o <file>, --output=<file>   Output file [default=stdout]
+
+  -n[start], --number[=start]  Show line numbers, starting at [start] if specified
+  -H <NUM>, --head=<NUM>       Head operation - show <NUM> lines
+
+  -h, --help                   Show help screen (this screen)
+"""
+
+    print(usage.__doc__.format(**globals()))
+
+
+##############################################################################
+# MAIN
 
 def main():
     ofs = sys.stdout
@@ -84,6 +123,7 @@ def main():
 
     ofs.close()
 
+
 def is_int(s_int):
     isint = True
 
@@ -91,6 +131,7 @@ def is_int(s_int):
     except: isint = False
 
     return isint
+
 
 def cat(ofs, file):
     global opts
@@ -128,11 +169,17 @@ def cat(ofs, file):
     if(ifs != sys.stdin):
         ifs.close()
 
+
 def chomp(line):
     return line.rstrip('\n')
 
+
 def eprint(text):
     sys.stderr.write("%s\n" % text)
+
+
+##############################################################################
+# ENTRY POINT
 
 if __name__ == "__main__":
     try:
@@ -141,3 +188,5 @@ if __name__ == "__main__":
         print("")
         sys.exit(errno.EOWNERDEAD)
 
+
+# vim:ft=python

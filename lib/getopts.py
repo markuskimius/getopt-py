@@ -9,15 +9,16 @@ __version__ = "1.0.4"
 __author__ = "Mark Kim"
 __all__ = ["getopts"]
 
-import sys, re
+import sys
+
 
 class getopts(object):
     NONOPTION = "-"
     ERROR = "?"
 
-    def __init__(self, argv, optstring):
+    def __init__(self, argv, optdict):
         self.argv = argv
-        self.optstring = optstring
+        self.optdict = optdict
 
         self.optarg = None
         self.optopt = None
@@ -76,8 +77,8 @@ class getopts(object):
             return getopts.NONOPTION
 
         # Is this a valid option?
-        if(self.optopt in self.optstring.keys()):
-            v_fn = self.optstring[self.optopt]
+        if(self.optopt in self.optdict.keys()):
+            v_fn = self.optdict[self.optopt]
         else:
             sys.stderr.write("%s: invalid option -- '%s'\n" % (self.argv[0], self.optopt))
             return getopts.ERROR
